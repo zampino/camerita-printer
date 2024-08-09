@@ -12,10 +12,10 @@ defmodule Camerita.Application do
 
     children =
       [
-        # Children for all targets
-        # Starts a worker by calling: Camerita.Worker.start_link(arg)
-        # {Camerita.Worker, arg},
-      ] ++ children(Nerves.Runtime.mix_target())
+
+        {Camerita.Comm, %{url: Nerves.Runtime.KV.get("remote_camera_ws_url")}}
+
+        ] ++ children(Nerves.Runtime.mix_target())
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -27,16 +27,12 @@ defmodule Camerita.Application do
   defp children(:host) do
     [
       # Children that only run on the host
-      # Starts a worker by calling: Camerita.Worker.start_link(arg)
-      # {Camerita.Worker, arg},
     ]
   end
 
   defp children(_target) do
     [
-      # Children for all targets except host
-      # Starts a worker by calling: Camerita.Worker.start_link(arg)
-      # {Camerita.Worker, arg},
+      {Camerita.BLE, %{device: "ttyS0"}}
     ]
   end
 

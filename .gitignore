@@ -20,3 +20,5 @@ erl_crash.dump
 /tmp/
 .envrc
 .DS_Store
+.clj-kondo 
+.lsp
