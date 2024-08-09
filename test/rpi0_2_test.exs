@@ -1,8 +1,8 @@
-defmodule Rpi02Test do
+defmodule CameritaTest do
   use ExUnit.Case
-  doctest Rpi02
+  doctest Camerita
 
   test "greets the world" do
-    assert Rpi02.hello() == :world
+    assert Camerita.hello() == :world
   end
 end

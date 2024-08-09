@@ -1,7 +1,7 @@
-defmodule Rpi02.MixProject do
+defmodule Camerita.MixProject do
   use Mix.Project
 
-  @app :rpi0_2
+  @app :camerita
   @version "0.1.0"
   @all_targets [
     :rpi,
@@ -36,13 +36,16 @@ defmodule Rpi02.MixProject do
   def application do
     [
       extra_applications: [:logger, :runtime_tools],
-      mod: {Rpi02.Application, []}
+      mod: {Camerita.Application, []}
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # connect to websocket endpoints
+      {:websockex, "~> 0.4.3"},
+
       # Dependencies for all targets
       {:nerves, "~> 1.10", runtime: false},
       {:shoehorn, "~> 0.9.1"},
@@ -55,6 +58,10 @@ defmodule Rpi02.MixProject do
 
       # Dependencies for all targets except :host
       {:nerves_pack, "~> 0.7.1", targets: @all_targets},
+
+      # bluethoot
+      {:blue_heron, github: "blue-heron/blue_heron", ref: "4838f3b7c06bdb5923c1a16b871d426c50d15cb1", override: true},
+      {:blue_heron_transport_uart, "0.1.4" },
 
       # Leds
       {:delux, "~> 0.4.1"},

@@ -1,4 +1,4 @@
-defmodule Rpi02.Application do
+defmodule Camerita.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -13,13 +13,13 @@ defmodule Rpi02.Application do
     children =
       [
         # Children for all targets
-        # Starts a worker by calling: Rpi02.Worker.start_link(arg)
-        # {Rpi02.Worker, arg},
+        # Starts a worker by calling: Camerita.Worker.start_link(arg)
+        # {Camerita.Worker, arg},
       ] ++ children(Nerves.Runtime.mix_target())
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Rpi02.Supervisor]
+    opts = [strategy: :one_for_one, name: Camerita.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -27,16 +27,16 @@ defmodule Rpi02.Application do
   defp children(:host) do
     [
       # Children that only run on the host
-      # Starts a worker by calling: Rpi02.Worker.start_link(arg)
-      # {Rpi02.Worker, arg},
+      # Starts a worker by calling: Camerita.Worker.start_link(arg)
+      # {Camerita.Worker, arg},
     ]
   end
 
   defp children(_target) do
     [
       # Children for all targets except host
-      # Starts a worker by calling: Rpi02.Worker.start_link(arg)
-      # {Rpi02.Worker, arg},
+      # Starts a worker by calling: Camerita.Worker.start_link(arg)
+      # {Camerita.Worker, arg},
     ]
   end
 

@@ -1,2 +1,3 @@
-# nerves-rpi0_2-base
-Base repo for Elixir Nerves running on Raspberry Zero 2 W
+# Camerita Printer
+
+Connects to remote camera, receives binaries to be printed, send data to printer over bluethoot
