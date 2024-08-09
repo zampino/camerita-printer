@@ -12,4 +12,8 @@ defmodule Camerita do
     write(<< text::binary, @cr, @lf>>)
   end
 
+  def reset() do
+    GenServer.stop(Camerita.BLE, :restart)
+  end
+
 end

@@ -1,7 +1,6 @@
 defmodule Camerita.Comm do
   use WebSockex
   require Logger
-  # import IEx.Helpers
 
   @backoff [2, 2, 2, 2, 5, 5, 5, 10, 10]
 
@@ -30,14 +29,19 @@ defmodule Camerita.Comm do
   end
 
   def handle_frame({:binary, msg}, state) do
-    # i(msg)
-    Logger.info "received binary / sending to printer"
+    Logger.info "received binary (size: #{byte_size msg}) / sending to printer"
     Camerita.write msg
     {:ok, state}
   end
 
-  def handle_frame({:text, msg} , state) do
-    Logger.info "Ignore nonbinray messages for the time being: '#{inspect msg}'."
+  def handle_frame({:text, "reset"}, state) do
+    Logger.info "Reset printer"
+    Camerita.reset()
+    {:ok, state}
+  end
+
+  def handle_frame({:text, msg}, state) do
+    Logger.info "Ignore nonbinray messages :-) '#{inspect msg}'."
     {:ok, state}
   end
 
