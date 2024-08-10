@@ -100,7 +100,9 @@ defmodule Camerita.BLE do
   # Sent when create_connection/2 is complete
   def handle_info({BlueHeron.ATT.Client, conn, %ConnectionComplete{connection_handle: handle} = msg}, %{conn: conn} = state) do
     Logger.info("CameritaPrinter.BLE connection established #{inspect(msg)}")
-    {:noreply, %{state | connected?: true, connection_handle: handle}}
+    new_state = %{state | connected?: true, connection_handle: handle}
+    client_write(new_state, "printer ready!\r\n")
+    {:noreply, new_state}
   end
 
   # Sent if a connection is dropped
@@ -140,7 +142,7 @@ defmodule Camerita.BLE do
 
   def handle_call({:write, data}, _from, state) do
     Logger.info "Trying to send data: #{inspect data} / handle: #{state.write_handle}"
-    case BlueHeron.ATT.Client.write(state.conn, state.write_handle, data) do
+    case client_write(state, data) do
       :ok ->
         Logger.info("Data Sent")
         {:reply, :ok, state}
@@ -155,6 +157,10 @@ defmodule Camerita.BLE do
   def terminate(reason, state) do
     Logger.info "BLE terminates with reason #{inspect reason}"
     state
+  end
+
+  def client_write(state, data) do
+    BlueHeron.ATT.Client.write(state.conn, state.write_handle, data)
   end
 
 end
